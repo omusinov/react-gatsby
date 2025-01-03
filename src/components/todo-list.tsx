@@ -1,5 +1,6 @@
 import React from 'react'
 import TodoListItem from './todo-list-item'
+import * as todoListStyle from './todo-list.module.css'
 
 interface Props {
 	data: any[]
@@ -7,14 +8,14 @@ interface Props {
 
 const TodoList = ({data = []}: Props) => {
 	return (
-		<ul>
+		<ul className={`list-group ${todoListStyle.todoList}`}>
 			{
 				data.length > 0 
 				?
 				data.map((item) => {
 					const { id, ...itemProps } = item
 					return (
-						<li key={id}>
+						<li key={id} className='list-group-item'>
 							<TodoListItem { ...itemProps } />
 						</li>
 					)
