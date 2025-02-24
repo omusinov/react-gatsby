@@ -1,0 +1,13 @@
+.runbutton {
+  background-color: burlywood;
+  padding: 2;
+  margin: 1em;
+  padding: 0.5em;
+  width: 10ch;
+}
+
+.textarea {
+  width: 100%;
+  height: 20em;
+  overflow: auto;
+}

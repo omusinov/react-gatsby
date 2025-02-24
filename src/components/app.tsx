@@ -2,6 +2,7 @@ import React from 'react'
 import AppHeader from "./app-header"
 import SearchPanel from "./search-panel"
 import TodoList from "./todo-list"
+import TestApiPanel from './test-api-panel'
 
 const App = () => {
   const todoData = [
@@ -16,6 +17,7 @@ const App = () => {
       <AppHeader />
       <SearchPanel />
       <TodoList data={todoData}/>
+      <TestApiPanel />
     </div>
   )
 }
