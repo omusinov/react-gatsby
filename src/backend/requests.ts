@@ -83,3 +83,74 @@ export const getKeywordsRequest = (sessionId: string, docTypeId: string) => {
 	</soap:Body>
 </soap:Envelope>`
 }
+
+export const getDisconnectRequest = (sessionId: string) => {
+  return `<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+	<soap:Body>
+		<Execute xmlns='http://tempuri.org/'>
+			<strXML>
+				&lt;requestList LCID=&quot;en-US&quot; LCIDUI=&quot;en-US&quot;&gt;
+					&lt;request&gt;
+						&lt;serviceProvider&gt;OnBase%5cMFPs&lt;/serviceProvider&gt;
+						&lt;action&gt;MfpSdk%5cDisconnect&lt;/action&gt;
+						&lt;parameters&gt;
+							&lt;parameter&gt;
+								&lt;name&gt;sessionId&lt;/name&gt;
+								&lt;value&gt;${sessionId}&lt;/value&gt;
+							&lt;/parameter&gt;
+						&lt;/parameters&gt;
+						&lt;RequestSignature/&gt;
+					&lt;/request&gt;
+				&lt;/requestList&gt;
+			</strXML>
+		</Execute>
+	</soap:Body>
+</soap:Envelope>`
+}
+
+export const getExpandDropDownRequest = (
+  sessionId: string, 
+  keyTypeId: string, 
+  possibleValuesAllowed: number, 
+  partialValue: string = '') => {
+
+  return `<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+	<soap:Body>
+		<Execute xmlns='http://tempuri.org/'>
+			<strXML>
+				&lt;requestList LCID=&quot;en-US&quot; LCIDUI=&quot;en-US&quot;&gt;
+					&lt;request&gt;
+						&lt;serviceProvider&gt;OnBase%5cMFPs&lt;/serviceProvider&gt;
+						&lt;action&gt;MfpSdk%5cExpandDropDown&lt;/action&gt;
+						&lt;authenticationToken&gt;
+							&lt;parameters&gt;
+								&lt;parameter&gt;
+									&lt;name&gt;sessionId&lt;/name&gt;
+									&lt;value&gt;${sessionId}&lt;/value&gt;
+								&lt;/parameter&gt;
+							&lt;/parameters&gt;
+						&lt;/authenticationToken&gt;
+						&lt;parameters&gt;
+							&lt;parameter&gt;
+								&lt;name&gt;keyTypeId&lt;/name&gt;
+								&lt;value&gt;${keyTypeId}&lt;/value&gt;
+							&lt;/parameter&gt;
+							&lt;parameter&gt;
+								&lt;name&gt;possibleValuesAllowed&lt;/name&gt;
+								&lt;value&gt;${possibleValuesAllowed}&lt;/value&gt;
+							&lt;/parameter&gt;
+							&lt;parameter&gt;
+								&lt;name&gt;partialValue&lt;/name&gt;
+								&lt;value&gt;${partialValue}&lt;/value&gt;
+							&lt;/parameter&gt;
+						&lt;/parameters&gt;
+						&lt;RequestSignature/&gt;
+					&lt;/request&gt;
+				&lt;/requestList&gt;
+			</strXML>
+		</Execute>
+	</soap:Body>
+</soap:Envelope>`
+}

@@ -1,13 +1,14 @@
 import axios from 'axios'
 import convert, { ElementCompact } from 'xml-js'
-import { getConnectRequest, getKeywordsRequest } from './requests'
+import { getConnectRequest, getKeywordsRequest, getExpandDropDownRequest, getDisconnectRequest } from './requests'
 
 const url = 'https://agileinhouse.hylandcloud.com/app/241appserver/service.asmx?wsdl'
 const datasource = 'ObAgileInHouse'
 const username = 'SECDEVELOPER'
 const password = 'Jupiter2'
-const sessionId = '8851aecb-7240-4674-b021-254919bdf7e6'
+const sessionId = 'ffcc238a-b8eb-444c-8526-e7adb8b63fb7'
 const docTypeId = '289'
+const keyTypeId = '226'
 
 const parseScanQueueObjects = (input: Array<any>) => {
 	let res = []
@@ -118,7 +119,42 @@ const parsedConnect = (xml: string) => {
 }
 
 const parsedKeywords = (xml: string) => {
-  return xml
+  const json: Element | ElementCompact = convert.xml2js(xml, { compact: true })
+  const body = json['soap:Envelope']['soap:Body']['ExecuteResponse']['ExecuteResult']['_text']
+  const jsonBody = convert.xml2js(body, { compact: true });
+  const encodedValue = jsonBody['responseList']['response']['parameters']['parameter']['value']['_text']
+  const decodedValue = decodeURIComponent(encodedValue).replaceAll('+', ' ')
+  const js_keywords = convert.xml2js(decodedValue, { compact: true })
+  const keywordsArray = js_keywords['keywordRecordCollection']['keywordRecord']
+
+  let res = []
+
+  for (let i = 0; i < keywordsArray.length; i++) {
+    let obj = {}
+    const entries = Object.entries(keywordsArray[i])
+    entries.forEach(([key, value]) => {
+      obj = Object.assign(obj, { [key]: value['_text'] })
+    })
+    obj = Object.assign(obj, { Value: '' })
+    res.push(obj)
+  }
+  return res
+}
+
+const parseExpandDropDown = (xml: string) => {
+  const json: Element | ElementCompact = convert.xml2js(xml, { compact: true })
+  const body = json['soap:Envelope']['soap:Body']['ExecuteResponse']['ExecuteResult']['_text']
+  const jsonBody = convert.xml2js(body, { compact: true });
+  const encodedValue = jsonBody['responseList']['response']['parameters']['parameter']['value']['_text']
+  const decodedValue = decodeURIComponent(encodedValue).replaceAll('+', ' ')
+  const js_values = convert.xml2js(decodedValue, { compact: true })
+  const values = js_values['possibleValueCollection']['possibleValue']
+
+  let res = []
+  for (let i = 0; i < values.length; i++) {
+    res.push(values[i]['value']['_text'])
+  }
+  return res
 }
 
 export const connect = async (request: any): Promise<any> => {
@@ -133,10 +169,9 @@ export const connect = async (request: any): Promise<any> => {
       }
     }
   )
-  
-  const res = parsedConnect(response.data)
-
+  // TODO: implement handling the server error response 
   if (response.status < 300) {
+    const res = parsedConnect(response.data)
     return res
   } else {
     return { status: response.status, statusText: response.statusText }
@@ -155,10 +190,50 @@ export const getKeywords = async (request: any) => {
       }
     }
   )
-  console.log(response.data)
-  const res = parsedKeywords(response.data)
-
+  // TODO: implement handling the server error response 
   if (response.status < 300) {
+    const res = parsedKeywords(response.data)
+    return res
+  } else {
+    return { status: response.status, statusText: response.statusText }
+  }
+}
+
+export const disconnect = async (request: any) => {
+  const xml = getDisconnectRequest(sessionId)
+  const response = await axios.post(
+    url,
+    xml,
+    {
+      headers: {
+        'Content-Type': 'text/xml',
+        'x-hylandtypesflags': 1,
+      }
+    }
+  )
+  // TODO: implement handling the server error response 
+  if (response.status < 300) {
+    return response.data
+  } else {
+    return { status: response.status, statusText: response.statusText }
+  }
+}
+
+export const getExpandDropDown = async (request: any) => {
+  const xml = getExpandDropDownRequest(sessionId, keyTypeId, 200, 'a')
+  const response = await axios.post(
+    url,
+    xml,
+    {
+      headers: {
+        'Content-Type': 'text/xml',
+        'x-hylandtypesflags': 1,
+      }
+    }
+  )
+  // TODO: implement handling the server error response 
+  if (response.status < 300) {
+    const res = parseExpandDropDown(response.data)
     return res
   } else {
     return { status: response.status, statusText: response.statusText }

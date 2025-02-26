@@ -1,6 +1,6 @@
 import React from 'react'
 import * as styles from './test-api-panel.module.css'
-import { connect, getKeywords } from '../backend/api'
+import { connect, getKeywords, getExpandDropDown, disconnect } from '../backend/api'
 
 const TestApiPanel = () => {
   const [ xml, setXml ] = React.useState<any>('')
@@ -12,6 +12,11 @@ const TestApiPanel = () => {
 
   const onGetKeywords = async () => {
     const data = await getKeywords('')
+    setXml(data)
+  }
+
+  const onGetDropDown = async () => {
+    const data = await getExpandDropDown('')
     setXml(data)
   }
 
@@ -27,6 +32,11 @@ const TestApiPanel = () => {
           className={`${styles.keywordbutton}`}
           onClick={onGetKeywords}
         >Get Keywords</button>
+
+        <button 
+          className={`${styles.dropdownbutton}`}
+          onClick={onGetDropDown}
+        >Get Expanded DropDown</button>
       </div>
       <textarea 
         className={`${styles.textarea}`}
