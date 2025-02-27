@@ -220,7 +220,7 @@ export const disconnect = async (request: any) => {
 }
 
 export const getExpandDropDown = async (request: any) => {
-  const xml = getExpandDropDownRequest(sessionId, keyTypeId, 200, 'a')
+  const xml = getExpandDropDownRequest(sessionId, keyTypeId, 200, '')
   const response = await axios.post(
     url,
     xml,

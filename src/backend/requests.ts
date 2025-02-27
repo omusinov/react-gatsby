@@ -112,7 +112,7 @@ export const getDisconnectRequest = (sessionId: string) => {
 export const getExpandDropDownRequest = (
   sessionId: string, 
   keyTypeId: string, 
-  possibleValuesAllowed: number, 
+  possibleValuesAllowed: number = 100,
   partialValue: string = '') => {
 
   return `<?xml version='1.0' encoding='utf-8'?>
@@ -153,4 +153,8 @@ export const getExpandDropDownRequest = (
 		</Execute>
 	</soap:Body>
 </soap:Envelope>`
+}
+
+export const getExpandSingleAutoFillRequest = (docTypeId: string, keyTypeId: string, keywordValue: string) => {
+  return ``
 }
