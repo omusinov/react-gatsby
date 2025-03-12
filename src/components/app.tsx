@@ -13,7 +13,7 @@ const App = () => {
       {/* <SearchPanel /> */}
       {/* <TodoList data={todoData}/> */}
       {/* <TestApiPanel /> */}
-      <TestKeywords data={keywordsData}/>
+      <TestKeywords data={keywordsData} className='m-2'/>
     </div>
   )
 }
