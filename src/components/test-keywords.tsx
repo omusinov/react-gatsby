@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { Keyword } from '../interfaces'
 import CutomTextField from './custom-components/custom-text-field'
 import CustomDropDown from './custom-components/custom-drop-down'
+import CustomDatePicker from './custom-components/custom-date-picker'
 
 interface KeywordProps {
   className?: string
@@ -74,6 +75,33 @@ const TestKeywords = (props: KeywordProps) => {
     setKeywords(newKeywords)
   }
 
+  const handleDateSelection = (date: Date, item: Keyword) => {
+    // const newKeywords = keywords.map((keyword: Keyword) => {
+    //   if (keyword.id === item.id && (keyword.index === item.index || (!keyword.index && !item.index))) {
+    //     keyword.value = date ? date.toISOString() : ''
+    //     return keyword
+    //   } else {
+    //     return keyword
+    //   }
+    // })
+    // console.log(newKeywords)
+    // setKeywords(newKeywords)
+  }
+
+  const handleDateInputChange = (event: React.ChangeEvent<HTMLInputElement>, item: Keyword) => {
+    const value = event.target.value
+    const newKeywords = keywords.map((keyword: Keyword) => {
+      if (keyword.id === item.id && (keyword.index === item.index || (!keyword.index && !item.index))) {
+        keyword.value = value ? value : ''
+        return keyword
+      } else {
+        return keyword
+      }
+    })
+    console.log(newKeywords)
+    setKeywords(newKeywords)
+  }
+
   return (
     <div className={`${className} border-2 rounded-2 m-2 flex flex-col`}>
       <div className='flex flex-row ml-16 mt-4 mb-2'>
@@ -87,7 +115,7 @@ const TestKeywords = (props: KeywordProps) => {
       
       {
         keywords.length > 0 && keywords.map((item: Keyword, index: number) => {
-          if (item.dropdown === 'False') {
+          if (item.dropdown === 'False' && item.datatype === '1') {
             return (
               <CutomTextField 
                 key={item.id + index}
@@ -99,7 +127,20 @@ const TestKeywords = (props: KeywordProps) => {
                 onAutofill={handleAutofill}
               />
             )
-          } else {
+          } 
+          if (item.dropdown === 'False' && item.datatype === '4') {
+            return (
+              <CustomDatePicker
+                key={item.id + index}
+                className='w-72 my-2'
+                item={item}
+                index={index.toString()}
+                onDateSelection={(date: Date) => handleDateSelection(date, item)}
+                onDateInputChange={(e) => handleDateInputChange(e, item)}
+              />
+            )
+          }
+          if (item.dropdown === 'True') {
             return (
               <CustomDropDown 
                 key={item.id + index}
