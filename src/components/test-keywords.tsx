@@ -5,6 +5,7 @@ import { Keyword } from '../interfaces'
 import CutomTextField from './custom-components/custom-text-field'
 import CustomDropDown from './custom-components/custom-drop-down'
 import CustomDatePicker from './custom-components/custom-date-picker'
+import { format } from 'date-fns';
 
 interface KeywordProps {
   className?: string
@@ -76,16 +77,16 @@ const TestKeywords = (props: KeywordProps) => {
   }
 
   const handleDateSelection = (date: Date, item: Keyword) => {
-    // const newKeywords = keywords.map((keyword: Keyword) => {
-    //   if (keyword.id === item.id && (keyword.index === item.index || (!keyword.index && !item.index))) {
-    //     keyword.value = date ? date.toISOString() : ''
-    //     return keyword
-    //   } else {
-    //     return keyword
-    //   }
-    // })
-    // console.log(newKeywords)
-    // setKeywords(newKeywords)
+    const newKeywords = keywords.map((keyword: Keyword) => {
+      if (keyword.id === item.id && (keyword.index === item.index || (!keyword.index && !item.index))) {
+        keyword.value = date ? format(date, 'MM/dd/yyyy') : ''
+        return keyword
+      } else {
+        return keyword
+      }
+    })
+    console.log(newKeywords)
+    setKeywords(newKeywords)
   }
 
   const handleDateInputChange = (event: React.ChangeEvent<HTMLInputElement>, item: Keyword) => {
@@ -137,6 +138,7 @@ const TestKeywords = (props: KeywordProps) => {
                 index={index.toString()}
                 onDateSelection={(date: Date) => handleDateSelection(date, item)}
                 onDateInputChange={(e) => handleDateInputChange(e, item)}
+                onAddDuplicate={addDuplicate}
               />
             )
           }

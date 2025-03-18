@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { TextField, Tooltip, IconButton, InputAdornment, Popper, ClickAwayListener } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import EventIcon from '@mui/icons-material/Event'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -11,10 +12,11 @@ interface DatePickerProps {
   index: string
   onDateSelection: (date: Date, item: Keyword) => void
   onDateInputChange: (e: any, item: Keyword) => void
+  onAddDuplicate: (item: Keyword) => void
 }
 
 const CustomDatePicker = (props: DatePickerProps) => {
-  const { className, item, index, onDateSelection, onDateInputChange } = props
+  const { className, item, index, onDateSelection, onDateInputChange, onAddDuplicate } = props
   const [calendarStates, setCalendarStates] = useState<{ isOpen: boolean; anchorEl: HTMLElement | null }>({isOpen: false, anchorEl: null})
   const datePickerRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +25,7 @@ const CustomDatePicker = (props: DatePickerProps) => {
 };
 
   const closeCalendar = () => {
-    setCalendarStates({ isOpen: true, anchorEl: null })
+    setCalendarStates({ isOpen: false, anchorEl: null })
   }
 
   const isValidDate = (value: string) => {
@@ -41,6 +43,7 @@ const CustomDatePicker = (props: DatePickerProps) => {
         label={item.name}
         value={item.value || ''}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => onDateInputChange(e, item)}
+        error={!isValidDate(item.value) && item.value !== ''}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -79,6 +82,12 @@ const CustomDatePicker = (props: DatePickerProps) => {
           </div>
         </ClickAwayListener>
       </Popper>
+
+      <Tooltip title={'Add'} placement='bottom'>
+        <IconButton onClick={() => onAddDuplicate(item)} color="primary" style={{ marginTop: '0px', marginLeft: '4px' }}>
+          <AddIcon />
+        </IconButton>
+      </Tooltip>
     </div>
   )
 }
