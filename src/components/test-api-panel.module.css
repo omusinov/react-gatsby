@@ -1,0 +1,29 @@
+.connectbutton {
+  background-color: burlywood;
+  padding: 2;
+  margin: 1em;
+  padding: 0.5em;
+  width: 15ch;
+}
+
+.keywordbutton {
+  background-color:darkkhaki;
+  padding: 2;
+  margin: 1em;
+  padding: 0.5em;
+  width: 15ch;
+}
+
+.dropdownbutton {
+  background-color:deepskyblue;
+  padding: 2;
+  margin: 1em;
+  padding: 0.5em;
+  width: 25ch;
+}
+
+.textarea {
+  width: 100%;
+  height: 20em;
+  overflow: auto;
+}
