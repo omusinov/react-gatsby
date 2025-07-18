@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { RichTreeView } from '@mui/x-tree-view/RichTreeView';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
-import RamenDiningOutlinedIcon from '@mui/icons-material/RamenDiningOutlined';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { styled } from '@mui/material/styles';
 
@@ -51,18 +50,27 @@ const ITEMS = [
 ];
 
 export const Tree = ({ data }) => {
-  const [selected, setSelected] = useState('/')
+  const [selected, setSelected] = useState('0')
   return (
-    <RichTreeView 
-      items={ITEMS}
-      slots={{
-        item: StyledTreeItem,
-        collapseIcon: FolderOutlinedIcon,
-        expandIcon: FolderOpenOutlinedIcon,
-        endIcon: FolderOutlinedIcon
-      }}
-      multiSelect={false}
-      selectedItems={selected}
-    />
+    <div>
+      <RichTreeView 
+        items={ITEMS}
+        slots={{
+          item: StyledTreeItem,
+          collapseIcon: FolderOutlinedIcon,
+          expandIcon: FolderOpenOutlinedIcon,
+          endIcon: FolderOutlinedIcon
+        }}
+        multiSelect={false}
+        selectedItems={selected}
+        onSelectedItemsChange={(event, newSelected) => {
+          console.log('Selected item IDs:', newSelected);
+          setSelected(newSelected);
+        }}
+      />
+      <div className="mt-4">
+        <strong>Currently selected:</strong> {selected}
+      </div>
+    </div>
   );
 }
