@@ -1,7 +1,9 @@
 import React from 'react'
-
-export const FolderBrowser = () => {
+import { Tree } from './tree'
+export const FolderBrowser = ({data}) => {
   return (
-    <div>Folder Browser</div>
+    <div className='m-4'>
+      <Tree data={data} />
+    </div>
   )
 }

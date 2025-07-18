@@ -5,7 +5,7 @@ import TodoList from "./todo-list"
 import TestApiPanel from './test-api-panel'
 import TestKeywords from './test-keywords'
 import { FolderBrowser } from './folder-browser'
-import { keywordsData, todoData, folders } from '../interfaces'
+import { keywordsData, todoData, folderData } from '../interfaces'
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
       {/* <TodoList data={todoData}/> */}
       {/* <TestApiPanel /> */}
       {/* <TestKeywords data={keywordsData} className='m-2'/> */}
-      <FolderBrowser />
+      <FolderBrowser data={folderData} />
     </div>
   )
 }
